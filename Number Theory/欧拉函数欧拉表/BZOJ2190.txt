@@ -1,0 +1,63 @@
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+#include<algorithm>
+using namespace std;
+typedef long long ll;
+/*注意数据范围*/
+const int MAXN=10010;
+ll n;
+ll factor[MAXN];
+ 
+void get_factor()
+/*必须在n^(1/2)时间以内求出所有的质因数，否则会TE*/
+{
+    memset(factor,0,sizeof(factor));
+    ll i;
+    for (i=1;i*i<n;i++)
+    {
+        if (n%i==0)
+        {
+            factor[++factor[0]]=i;
+            factor[++factor[0]]=n/i;
+        }
+    }
+    if (i*i==n) factor[++factor[0]]=i;
+}
+ 
+ll eular(ll k)
+{
+    ll res=k;
+    for (ll p=2;p*p<=k;p++)
+    {
+        if (k%p==0)
+        {
+            res=res-res/p;
+            while (k%p==0) k/=p;
+        }
+    }
+    if (k>1) res=res-res/k;
+    /*主意k可能大于0，必须要再减去*/
+    return res;
+}
+ 
+void init()
+{
+    scanf("%d",&n);
+}
+ 
+ll get_ans()
+{
+    ll result=0;
+    for (ll i=1;i<=factor[0];i++)
+        result+=eular(n/factor[i])*factor[i];
+    return result;
+}
+ 
+int main()
+{
+    init();
+    get_factor();
+    cout<<get_ans()<<endl;
+    return 0;
+}

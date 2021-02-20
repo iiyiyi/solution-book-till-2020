@@ -1,0 +1,41 @@
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+#include<algorithm>
+#define m 1000000007
+using namespace std;
+typedef long long ll;
+const int MAXN=1000000+5;
+ll n;
+char str[MAXN];
+
+void init()
+{
+	n=0;
+	int len=strlen(str);
+	for (int i=0;i<len;i++)
+		n=(n*10+str[i]-'0')%(m-1);
+	n--;
+}
+
+ll pow()
+{
+	ll temp=n,k=2,ret=1;
+	while (temp)
+	{
+		if (temp&1) ret=ret*k%m;
+		temp>>=1;
+		k=(k*k)%m;
+	}
+	return ret;
+}
+
+int main()
+{
+	while (~scanf("%s",str))
+	{
+		init();
+		cout<<pow()<<endl;
+	}
+	return 0;
+}
